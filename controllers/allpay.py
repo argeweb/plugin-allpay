@@ -31,8 +31,8 @@ class Allpay(Controller):
         return a.gen_html_form(a.check_out({
             'TotalAmount': 1000,
             'ChoosePayment': 'ALL',
-            'MerchantTradeNo': "allpay20130312153023",
-            'MerchantTradeDate': "2013/03/12 15:30:23",
+            # 'MerchantTradeNo': "abc123",
+            # 'MerchantTradeDate': "2013/03/12 15:30:23",
             'ReturnURL': 'https://www.allpay.com.tw/receive.php',
             'ItemName': u"Apple iphone 7 手機殼",
             'TradeDesc': u"促銷方案"

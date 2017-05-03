@@ -124,12 +124,7 @@ class AllPay():
                 sn = str(sn)
             s.append(u'%3d'.join((item[0], self.str_parse(sn))))
         result_request_str = do_str_replace(u'%26'.join(s)).lower()
-        check = u'hashkey%3d5294y06jbispm5x9%26choosepayment%3dall%26encrypttype%3d1%26itemname%3dapple+iphone+7+%e6%89%8b%e6%a9%9f%e6%ae%bc%26merchantid%3d2000132%26merchanttradedate%3d2013%2f03%2f12+15%3a30%3a23%26merchanttradeno%3dallpay20130312153023%26paymenttype%3daio%26returnurl%3dhttps%3a%2f%2fwww.allpay.com.tw%2freceive.php%26totalamount%3d1000%26tradedesc%3d%e4%bf%83%e9%8a%b7%e6%96%b9%e6%a1%88%26hashiv%3dv77hokgq4kwxnnis'
-        chekk = u'hashkey%3d5294y06jbispm5x9%26choosepayment%3dall%26encrypttype%3d1%26itemname%3dapple+iphone+7+%e6%89%8b%e6%a9%9f%e6%ae%bc%26merchantid%3d1033600%26merchanttradedate%3d2013%2f03%2f12+15%3a30%3a23%26merchanttradeno%3dallpay20130312153023%26paymenttype%3daio%26returnurl%3dhttps%3a%2f%2fwww.allpay.com.tw%2freceive.php%26totalamount%3d1000%26tradedesc%3d%e4%bf%83%e9%8a%b7%e6%96%b9%e6%a1%88%26hashiv%3dv77hokgq4kwxnnis'
-        a = result_request_str == check
-        # md5 encoding
-        check_mac_value = hashlib.md5(result_request_str).hexdigest().upper()
-        self.url_dict['CheckMacValue'] = check_mac_value
+        self.url_dict['CheckMacValue'] = hashlib.sha256(result_request_str).hexdigest().upper()
         return self.url_dict
 
     @classmethod
@@ -145,7 +140,7 @@ class AllPay():
         try:
             payment_type_replace_map = {'_CVS': '', '_BARCODE': '', '_Alipay': '', '_Tenpay': '', '_CreditCard': ''}
             period_type_replace_map = {'Y': 'Year', 'M': 'Month', 'D': 'Day'}
-            for key, val in post.iteritems():
+            for key, val in post.items():
 
                 print key, val
                 if key == 'CheckMacValue':
@@ -153,14 +148,14 @@ class AllPay():
                 else:
                     ar_parameter[key.lower()] = val
                     if key == 'PaymentType':
-                        for origin, replacement in payment_type_replace_map.iteritems():
+                        for origin, replacement in payment_type_replace_map.items():
                             val = val.replace(origin, replacement)
                     elif key == 'PeriodType':
-                        for origin, replacement in period_type_replace_map.iteritems():
+                        for origin, replacement in period_type_replace_map.items():
                             val = val.replace(origin, replacement)
                     returns[key] = val
 
-            sorted_returns = sorted(ar_parameter.iteritems())
+            sorted_returns = sorted(ar_parameter.items())
             sz_confirm_mac_value = "HashKey=" + HASH_KEY
 
             for val in sorted_returns:
