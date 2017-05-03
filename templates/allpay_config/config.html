@@ -1,0 +1,13 @@
+{% extends "backend/config.html" %}
+{% block layout_before_content %}
+<div class="ibox-content m-b-sm border-bottom">
+    <div class="p-xs">
+        <div class="pull-left m-r-md">
+            <i class="material-icons mid-icon brand-text-color">mail</i>
+        </div>
+        <h2>歐付寶金流設定</h2>
+        台灣金流公司 歐付寶 相關的串接參數設定。
+        {% if last_record_date %}<span class="text-muted small pull-right visible-sm visible-md visible-lg">最後更新：<i class="icon">access_time</i> {{ print_value(last_record_date) }}</span>{% endif %}
+    </div>
+</div>
+{% endblock %}
