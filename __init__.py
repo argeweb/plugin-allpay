@@ -4,16 +4,8 @@
 # Created with YooLiang Technology (侑良科技).
 # Author: Qi-Liang Wen (温啓良）
 # Web: http://www.yooliang.com/
-# Date: 2017/2/23.
+# Date: 2017/5/4.
 
-from argeweb import ViewDatastore
-from allpay import AllPay, AllpayConfigModel
-
-
-__all__ = (
-    'AllPay'
-    'AllpayConfigModel'
-)
 
 plugins_helper = {
     'title': u'歐付寶金流串接相關功能',
