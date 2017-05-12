@@ -73,3 +73,51 @@ class Allpay(Controller):
                 return returns
         except:
             self.logging.info('Exception!')
+
+    @route
+    def pay_with_aio(self):
+        from ..libs.api import api
+        payment_record = self.params.get_ndb_record('payment_record')
+        if payment_record is None:
+            return u'付款資訊不存在'
+        return api.gen_html_form(api.check_out({
+            'TotalAmount': int(payment_record.amount),
+            'ChoosePayment': 'ALL',
+            # 'MerchantTradeNo': "abc123",
+            # 'MerchantTradeDate': "2013/03/12 15:30:23",
+            'ReturnURL': 'https://www.allpay.com.tw/receive.php',
+            'TradeDesc': payment_record.title,
+            'ItemName': payment_record.detail
+        }))
+
+    @route
+    def pay_with_atm(self):
+        return 'atm'
+
+    @route
+    def pay_with_card(self):
+        return 'card'
+
+    @route
+    def taskqueue_after_install(self):
+        try:
+            from plugins.payment_middle_layer.models.payment_type_model import PaymentTypeModel
+            PaymentTypeModel.get_or_create(
+                name='allpay_aio',
+                title=u'歐付寶支付',
+                pay_uri='allpay:allpay:pay_with_aio'
+            )
+            PaymentTypeModel.get_or_create(
+                name='allpay_atm',
+                title=u'ATM 付款',
+                pay_uri='allpay:allpay:pay_with_atm'
+            )
+            PaymentTypeModel.get_or_create(
+                name='allpay_card',
+                title=u'信用卡',
+                pay_uri='allpay:allpay:pay_with_card'
+            )
+            return 'done'
+        except ImportError:
+            self.logging.error(u'需要 "付款中間層"')
+            return 'ImportError'
