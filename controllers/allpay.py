@@ -79,8 +79,11 @@ class Allpay(Controller):
         from ..libs.api import api
         payment_record = self.params.get_ndb_record('payment_record')
         if payment_record is None:
-            return u'付款資訊不存在'
-        return api.gen_html_form(api.check_out({
+            self.context['message'] = u'付款資訊不存在'
+            self.context['data'] = {'result': 'failure'}
+            return
+        self.context['data'] = {'result': 'success'}
+        self.context['html_code'] = api.gen_html_form(api.check_out({
             'TotalAmount': int(payment_record.amount),
             'ChoosePayment': 'ALL',
             # 'MerchantTradeNo': "abc123",
