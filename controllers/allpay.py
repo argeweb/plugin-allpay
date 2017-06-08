@@ -12,9 +12,6 @@ from argeweb.components.search import Search
 
 
 class Allpay(Controller):
-    class Meta:
-        components = (scaffold.Scaffolding, Pagination, Search)
-
     class Scaffold:
         display_in_list = ['title', 'mail_title']
         hidden_in_form = ['name']

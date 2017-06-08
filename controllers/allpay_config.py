@@ -13,9 +13,6 @@ from google.appengine.api import app_identity
 
 
 class AllpayConfig(Controller):
-    class Meta:
-        components = (scaffold.Scaffolding, Pagination, Search)
-
     class Scaffold:
         display_in_list = ('is_enable', 'category')
         hidden_in_form = ('name', 'title', 'use')
