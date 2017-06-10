@@ -79,13 +79,15 @@ class Allpay(Controller):
             self.context['message'] = u'付款資訊不存在'
             self.context['data'] = {'result': 'failure'}
             return
+        return_url = payment_record.gen_result_url(self)
+        self.logging.info('aio pay return url = %s' % return_url)
         self.context['data'] = {'result': 'success'}
         self.context['html_code'] = api.gen_html_form(api.check_out({
             'TotalAmount': int(payment_record.amount),
             'ChoosePayment': 'ALL',
             # 'MerchantTradeNo': "abc123",
             # 'MerchantTradeDate': "2013/03/12 15:30:23",
-            'ReturnURL': 'https://www.allpay.com.tw/receive.php',
+            'ReturnURL': return_url,
             'TradeDesc': payment_record.title,
             'ItemName': payment_record.detail
         }))
