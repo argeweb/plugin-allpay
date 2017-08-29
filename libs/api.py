@@ -11,7 +11,7 @@ import datetime
 import hashlib
 import weakref
 from rfc3986 import urlparse
-from ..models.allpay_config_model import AllpayConfigModel
+from ..models.config_model import ConfigModel
 
 
 def str_replace(string, type_check_out=True):
@@ -47,7 +47,7 @@ class AllpayApi(object):
     @property
     def config(self):
         if self._config is None:
-            self._config = weakref.proxy(AllpayConfigModel.find_by_name('allpay_config'))
+            self._config = weakref.proxy(ConfigModel.get_by_name('allpay_config'))
         return self._config
 
     def gen_dict(self, payment_conf):
@@ -76,11 +76,11 @@ class AllpayApi(object):
 
     def gen_html_form(self, dict_url, service_method='post', auto_send=True):
         """
-                Generate The Form Submission
-                :param service_method:
-                :param dict_url:
-                :return: the html of the form
-                """
+        Generate The Form Submission
+        :param service_method:
+        :param dict_url:
+        :return: the html of the form
+        """
         form_html = u'<form id="allPay-Form" name="allPayForm" ' \
                     u'method="%s" target="_self" action="%s" style="display: none;">' % \
                     (service_method, self.config.service_url)

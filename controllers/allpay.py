@@ -6,16 +6,12 @@
 # Web: http://www.yooliang.com/
 # Date: 2017/2/23.
 
-from argeweb import Controller, scaffold, route_menu, Fields, route_with, route
-from argeweb.components.pagination import Pagination
-from argeweb.components.search import Search
+from argeweb import Controller, scaffold, route
 
 
 class Allpay(Controller):
     class Scaffold:
         display_in_list = ['title', 'mail_title']
-        hidden_in_form = ['name']
-        excluded_in_form = ()
 
     def admin_list(self):
         return scaffold.list(self)
@@ -79,15 +75,13 @@ class Allpay(Controller):
             self.context['message'] = u'付款資訊不存在'
             self.context['data'] = {'result': 'failure'}
             return
-        return_url = payment_record.gen_result_url(self)
-        self.logging.info('aio pay return url = %s' % return_url)
         self.context['data'] = {'result': 'success'}
         self.context['html_code'] = api.gen_html_form(api.check_out({
             'TotalAmount': int(payment_record.amount),
             'ChoosePayment': 'ALL',
             # 'MerchantTradeNo': "abc123",
             # 'MerchantTradeDate': "2013/03/12 15:30:23",
-            'ReturnURL': return_url,
+            'ReturnURL': payment_record.return_rul,
             'TradeDesc': payment_record.title,
             'ItemName': payment_record.detail
         }))

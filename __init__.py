@@ -22,7 +22,7 @@ plugins_helper = {
                 {'action': 'plugins_check', 'name': u'啟用停用模組'},
             ]
         },
-        'allpay_config': {
+        'config': {
             'group': u'歐付寶設定',
             'actions': [
                 {'action': 'config', 'name': u'歐付寶相關設定'},
