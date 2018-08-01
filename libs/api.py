@@ -47,7 +47,7 @@ class AllpayApi(object):
     @property
     def config(self):
         if self._config is None:
-            self._config = weakref.proxy(ConfigModel.get_by_name('allpay_config'))
+            self._config = weakref.proxy(ConfigModel.get_config())
         return self._config
 
     def gen_dict(self, payment_conf):

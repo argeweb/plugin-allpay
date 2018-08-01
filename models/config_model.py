@@ -6,15 +6,15 @@
 # Web: http://www.yooliang.com/
 # Date: 2017/5/3.
 
-from argeweb import BasicModel
+from argeweb import BasicConfigModel
 from argeweb import Fields
 
 
-class ConfigModel(BasicModel):
+class ConfigModel(BasicConfigModel):
     class Meta:
         tab_pages = [u'串接參數', u'正式環境', u'測試環境']
 
-    title = Fields.StringProperty(verbose_name=u'設定名稱', default=u'AllPay 相關設定')
+    title = Fields.HiddenProperty(verbose_name=u'設定名稱', default=u'AllPay 相關設定')
     is_sandbox = Fields.BooleanProperty(verbose_name=u'使用測試伺服器', default=True)
     return_url = Fields.StringProperty(verbose_name=u'Return Url', tab_page=0, default=u'')
     client_back_url = Fields.StringProperty(verbose_name=u'Client Back Url', tab_page=0, default=u'')

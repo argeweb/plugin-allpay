@@ -95,25 +95,45 @@ class Allpay(Controller):
         return 'card'
 
     @route
+    def taskqueue_after_uninstall(self):
+        self.fire(
+            event_name='update_payment_type',
+            name='allpay_aio',
+            is_enable=False
+        )
+        self.fire(
+            event_name='update_payment_type',
+            name='allpay_atm',
+            is_enable=False
+        )
+        self.fire(
+            event_name='update_payment_type',
+            name='allpay_card',
+            is_enable=False
+        )
+        return 'done'
+
+    @route
     def taskqueue_after_install(self):
-        try:
-            from plugins.payment_middle_layer.models.payment_type_model import PaymentTypeModel
-            PaymentTypeModel.get_or_create(
-                name='allpay_aio',
-                title=u'歐付寶支付',
-                pay_uri='allpay:allpay:pay_with_aio'
-            )
-            PaymentTypeModel.get_or_create(
-                name='allpay_atm',
-                title=u'ATM 付款',
-                pay_uri='allpay:allpay:pay_with_atm'
-            )
-            PaymentTypeModel.get_or_create(
-                name='allpay_card',
-                title=u'信用卡',
-                pay_uri='allpay:allpay:pay_with_card'
-            )
-            return 'done'
-        except ImportError:
-            self.logging.error(u'需要 "付款中間層"')
-            return 'ImportError'
+        self.fire(
+            event_name='update_payment_type',
+            name='allpay_aio',
+            title=u'歐付寶支付',
+            is_enable=True,
+            pay_uri='allpay:allpay:pay_with_aio'
+        )
+        self.fire(
+            event_name='update_payment_type',
+            name='allpay_atm',
+            title=u'ATM 付款',
+            is_enable=True,
+            pay_uri='allpay:allpay:pay_with_atm'
+        )
+        self.fire(
+            event_name='update_payment_type',
+            name='allpay_card',
+            title=u'信用卡',
+            is_enable=True,
+            pay_uri='allpay:allpay:pay_with_card'
+        )
+        return 'done'

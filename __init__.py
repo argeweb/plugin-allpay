@@ -28,6 +28,5 @@ plugins_helper = {
                 {'action': 'config', 'name': u'歐付寶相關設定'},
             ]
         },
-    },
-    'install_uri': 'allpay:allpay:after_install'
+    }
 }

@@ -17,6 +17,6 @@ class Config(Controller):
     @route
     @route_menu(list_name=u'system', group=u'歐付寶', text=u'歐付寶金流設定', sort=803)
     def admin_config(self):
-        config_record = self.meta.Model.get_or_create_by_name('allpay_config')
+        config_record = self.meta.Model.get_config()
         return scaffold.edit(self, config_record.key)
 
